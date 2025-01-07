@@ -41,9 +41,11 @@ namespace FilmesApi.Controllers
             {
                 return _mapper.Map<List<ReadCinemaDto>>(_context.Cinemas.ToList());
             }
-            return _mapper.Map<List<ReadCinemaDto>>(_context.Cinemas.FromSqlRaw($"SELECT Id, Nome, EnderecoId FROM cinemas where cinemas.EnderecoId = {enderecoId}").ToList());
+            var table = _context.Cinemas.FromSqlRaw($"SELECT Id, Nome, EnderecoId FROM Cinemas c where c.EnderecoId = {enderecoId}").ToList();
+
+            return _mapper.Map<List<ReadCinemaDto>>(table);
         }
-        
+
 
         [HttpGet("{id}")]
         public IActionResult RecuperaCinemasPorId(int id)
